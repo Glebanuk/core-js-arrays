@@ -432,8 +432,10 @@ function getFalsyValuesCount(arr) {
  *                              [0,0,0,1,0],
  *                              [0,0,0,0,1]]
  */
-function getIdentityMatrix(/* n */) {
-  throw new Error('Not implemented');
+function getIdentityMatrix(n) {
+  return Array.from({ length: n }, (_, rowIndex) =>
+    Array.from({ length: n }, (__, colIndex) => (rowIndex === colIndex ? 1 : 0))
+  );
 }
 
 /**
@@ -447,10 +449,14 @@ function getIdentityMatrix(/* n */) {
  *    getIndicesOfOddNumbers([2, 4, 6, 8, 10]) => []
  *    getIndicesOfOddNumbers([11, 22, 33, 44, 55]) => [0, 2, 4]
  */
-function getIndicesOfOddNumbers(/* numbers */) {
-  throw new Error('Not implemented');
+function getIndicesOfOddNumbers(numbers) {
+  return numbers.reduce((result, element, idx) => {
+    if (element % 2 === 1) {
+      result.push(idx);
+    }
+    return result;
+  }, []);
 }
-
 /**
  * Returns the array of RGB Hex strings from the specified array of numbers.
  *
@@ -461,8 +467,11 @@ function getIndicesOfOddNumbers(/* numbers */) {
  *    getHexRGBValues([ 0, 255, 16777215]) => [ '#000000', '#0000FF', '#FFFFFF' ]
  *    getHexRGBValues([]) => []
  */
-function getHexRGBValues(/* arr */) {
-  throw new Error('Not implemented');
+function getHexRGBValues(arr) {
+  return arr.map((value) => {
+    const hexValue = value.toString(16).toUpperCase();
+    return `#${hexValue.padStart(6, '0')}`;
+  });
 }
 
 /**
@@ -479,10 +488,19 @@ function getHexRGBValues(/* arr */) {
  *   getMaxItems([ 10, 2, 7, 5, 3, -5 ], 3) => [ 10, 7, 5 ]
  *   getMaxItems([ 10, 10, 10, 10 ], 3) => [ 10, 10, 10 ]
  */
-function getMaxItems(/* arr, n */) {
-  throw new Error('Not implemented');
+function getMaxItems(arr, n) {
+  return arr.reduce((maxValues, current) => {
+    if (maxValues.length < n) {
+      maxValues.push(current);
+      maxValues.sort((a, b) => b - a);
+    } else if (current > maxValues[n - 1]) {
+      maxValues.pop();
+      maxValues.push(current);
+      maxValues.sort((a, b) => b - a);
+    }
+    return maxValues;
+  }, []);
 }
-
 /**
  * Finds and returns an array containing only the common elements found in two arrays.
  *
@@ -495,8 +513,8 @@ function getMaxItems(/* arr, n */) {
  *    findCommonElements(['a', 'b', 'c'], ['b', 'c', 'd']) => [ 'b', 'c' ]
  *    findCommonElements([1, 2, 3], ['a', 'b', 'c']) => []
  */
-function findCommonElements(/* arr1, arr2 */) {
-  throw new Error('Not implemented');
+function findCommonElements(arr1, arr2) {
+  return arr1.filter((elem) => arr2.includes(elem));
 }
 
 /**
@@ -510,9 +528,10 @@ function findCommonElements(/* arr1, arr2 */) {
  *    findLongestIncreasingSubsequence([3, 10, 2, 1, 20]) => 2
  *    findLongestIncreasingSubsequence([50, 3, 10, 7, 40, 80]) => 3
  */
-function findLongestIncreasingSubsequence(/* nums */) {
-  throw new Error('Not implemented');
-}
+
+// function findLongestIncreasingSubsequence(nums) {
+
+// }
 
 /**
  * Propagates every item in sequence its position times
@@ -528,8 +547,10 @@ function findLongestIncreasingSubsequence(/* nums */) {
  *  propagateItemsByPositionIndex([ 'a', 'b', 'c', null ]) => [ 'a', 'b', 'b', 'c', 'c', 'c',  null, null, null, null ]
  *  propagateItemsByPositionIndex([ 1,2,3,4,5 ]) => [ 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5 ]
  */
-function propagateItemsByPositionIndex(/* arr */) {
-  throw new Error('Not implemented');
+function propagateItemsByPositionIndex(arr) {
+  return Array.from({ length: arr.length }, (_, idx) =>
+    Array(idx + 1).fill(arr[idx])
+  ).flat();
 }
 
 /**
@@ -618,7 +639,7 @@ module.exports = {
   getHexRGBValues,
   getMaxItems,
   findCommonElements,
-  findLongestIncreasingSubsequence,
+  // findLongestIncreasingSubsequence,
   propagateItemsByPositionIndex,
   shiftArray,
   sortDigitNamesByNumericOrder,
